@@ -1,0 +1,99 @@
+{\rtf1\ansi\ansicpg1251\cocoartf2636
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 from news.models import *\
+\
+User1 = User.objects.create(\'91Ivan\'92)\
+User2 = User.objects.create(\'91Victorya\'92)\
+\
+Author.objects.create(authorUser=user1)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 Author.objects.create(authorUser=user2)\
+\
+Category.objects.create(name=\'91IT\'92)\
+Category.objects.create(name=\'91Education\'92)\
+Category.objects.create(name=\'91Sport\'92)\
+Category.objects.create(name=\'91Cinema\'92)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+Post.objects.create(author=Author.objects.get(id=1), categoryType='NW', title='titleIvan', text='textIvan')\
+\
+Post.objects.create(author=Author.objects.get(id=1), categoryType='AR', title='ARtitleIvan', text='ARtextIvan')\
+\
+Post.objects.create(author=Author.objects.get(id=2), categoryType='AR', title='ARtitleVika', text='ARtextVika')\
+\
+\
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))\
+>>> Post.objects.get(id=1).postCategory.add(Category.objects.get(id=4))\
+>>> Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2))\
+>>> Post.objects.get(id=2).postCategory.add(Category.objects.get(id=1))\
+>>> Post.objects.get(id=3).postCategory.add(Category.objects.get(id=3))\
+>>> Post.objects.get(id=3).postCategory.add(Category.objects.get(id=4))\
+\
+\
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='comment text Ivan')\
+<Comment: Comment object (1)>\
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=2).authorUser, text='comment text Vika')\
+<Comment: Comment object (2)>\
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='AR comment text Vika')\
+<Comment: Comment object (3)>\
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text='AR comment text Ivan')\
+<Comment: Comment object (4)>\
+>>> Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text='AR2 comment text Ivan')\
+<Comment: Comment object (5)>\
+\
+\
+Post.objects.get(id=1).like()\
+>>> Post.objects.get(id=1).like()\
+>>> Post.objects.get(id=1).like()\
+>>> Post.objects.get(id=2).dislike()\
+>>> Post.objects.get(id=2).dislike()\
+>>> Post.objects.get(id=3).like()\
+>>> Post.objects.get(id=3).like()\
+>>> Post.objects.get(id=3).like()\
+>>> Post.objects.get(id=3).like()\
+>>> Post.objects.get(id=3).like()\
+>>> Post.objects.get(id=3).like()\
+>>> Post.objects.get(id=3).like()\
+>>> Comment.objects.get(id=1).like()\
+>>> Comment.objects.get(id=1).like()\
+>>> Comment.objects.get(id=1).like()\
+>>> Comment.objects.get(id=1).like()\
+>>> Comment.objects.get(id=1).like()\
+>>> Comment.objects.get(id=2).dislike()\
+>>> Comment.objects.get(id=2).dislike()\
+>>> Comment.objects.get(id=2).dislike()\
+>>> Comment.objects.get(id=3).dislike()\
+>>> Comment.objects.get(id=3).dislike()\
+>>> Comment.objects.get(id=4).like()\
+>>> Comment.objects.get(id=4).like()\
+>>> Comment.objects.get(id=5).like()\
+>>> Comment.objects.get(id=5).like()\
+>>> Comment.objects.get(id=5).like()\
+>>> Comment.objects.get(id=5).like()\
+>>> Comment.objects.get(id=5).like()\
+\
+\
+\
+>>> Author.objects.get(id=1).update_rating()\
+>>> Author.objects.get(id=2).update_rating()\
+\
+\
+a = Author.objects.all().order_by('-ratingAuthor')[0]\
+print(a.authorUser.username, a.ratingAuthor)\
+\
+\
+best_post = Post.objects.all().order_by('-rating')[0]\
+\
+\
+print(best_post.dateCreation, a.authorUser, a.ratingAuthor, best_post.title, best_post.preview())\
+\
+\
+Comment.objects.filter(commentPost=best_post).values('dateCreation', 'commentUser', 'rating', 'text')\
+\
+}
