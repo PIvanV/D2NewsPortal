@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+
+{% block content %}
+<table>
+
+    <td>
+        <tr>
+            Автор: {{ post.author.authorUser }}
+        </tr>
+        <hr>
+        <tr>
+            {{ post.title|censor }}
+        </tr>
+        <hr>
+        <tr>
+            Дата публикации: {{ post.dateCreation }}
+        </tr>
+        <hr>
+        <tr>
+            {{ post.text|censor }}
+        </tr>
+    </td>
+</table>
+
+{% endblock content %}
