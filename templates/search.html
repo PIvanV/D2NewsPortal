@@ -1,0 +1,42 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %} Search list {% endblock title %}
+ 
+{% block content %}
+ 
+<h2>Поиск новостей</h2>
+<hr>
+<!-- Перед таблицей добавим форму для поиска -->
+<form method="GET">
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает django. А вот кнопку, увы придётся делать самому -->
+    <input type="submit" value="Найти">
+</form>
+ 
+<table>
+    <thead>
+        <th>
+            Автор
+        </th>
+        <th>
+            Заголовок
+        </th>
+        <th>
+            Дата публикации
+        </th>
+    </thead>
+    {% for post in filter.qs %} <!-- поменяем products на filter.qs, т. к. теперь мы забираем уже отобранную по каким-то параметрам информацию -->
+    <tr>
+        <td>
+            {{ post.author.authorUser }}
+        </td>
+        <td>
+            {{ post.title|censor }}
+        </td>
+        <td>
+            {{post.dateCreation|date:'d M Y'}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
