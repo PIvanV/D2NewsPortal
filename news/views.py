@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView # импортируем необходимые дженерики
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView, TemplateView # импортируем необходимые дженерики
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Post
 from datetime import datetime
 from .filters import PostFilter
@@ -53,19 +54,22 @@ class PostDetailView(DetailView):
 
 
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
-class PostCreateView(CreateView):
+class PostCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'sample_app/post_create.html'
     form_class = PostForm
+    permission_required = ('news.add_post',)
 
     # дженерик для редактирования объекта
-class PostUpdateView(UpdateView):
+class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
         template_name = 'sample_app/post_create.html'
         form_class = PostForm
+        permission_required = ('news.change_post',)
 
         # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте, который мы собираемся редактирова
         def get_object(self, **kwargs):
             id = self.kwargs.get('pk')
             return Post.objects.get(pk=id)
+
 
     # дженерик для удаления товара
 class PostDeleteView(DeleteView):
