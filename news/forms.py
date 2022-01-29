@@ -1,5 +1,5 @@
 from django.forms import ModelForm, BooleanField
-from .models import Post
+from .models import Post, Author
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 
@@ -10,7 +10,7 @@ class PostForm(ModelForm):
     # в класс мета, как обычно, надо написать модель, по которой будет строится форма и нужные нам поля. Мы уже делали что-то похожее с фильтрами.
     class Meta:
         model = Post
-        fields = ['author', 'title', 'text', 'check_box']
+        fields = ['author', 'postCategory', 'title', 'text', 'check_box']
 
 
 class BasicSignupForm(SignupForm):

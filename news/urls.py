@@ -1,13 +1,16 @@
 from django.urls import path
-from .views import PostList, PostDetail, SearchList, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from .views import PostList, PostDetail, SearchList, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, CategorySubscribeView, subscribe_category
 
 
 urlpatterns = [
     path('', PostList.as_view()),
     path('<int:pk>', PostDetail.as_view()),
-    path('search', SearchList.as_view()),
+    path('search/', SearchList.as_view()),
     path('<int:pk>/', PostDetailView.as_view(), name='post_detail'),  # Ссылка на детали товара
     path('create/', PostCreateView.as_view(), name='post_create'),  # Ссылка на создание товара
     path('create/<int:pk>', PostUpdateView.as_view(), name='post_update'),
     path('delete/<int:pk>', PostDeleteView.as_view(), name='post_delete'),
+
+    path('category/', CategorySubscribeView.as_view()),
+    path('category/<int:pk>', subscribe_category, name='subscribe_category'),
 ]
