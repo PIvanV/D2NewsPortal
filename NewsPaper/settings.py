@@ -182,3 +182,10 @@ EMAIL_HOST_PASSWORD = 'qbpqbsqmvwnnoetn'  # пароль от почты
 EMAIL_USE_SSL = True # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
 
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
